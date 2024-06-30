@@ -18,7 +18,10 @@ public class SplitCub : MonoBehaviour
         Vector3 cubePosition = cubeToSplit.transform.position;
         Vector3 cubeScale = cubeToSplit.transform.localScale;
 
-        Destroy(cubeToSplit);
+        if(cubeToSplit != null)
+        {
+            Destroy(cubeToSplit);
+        }
 
         if(Random.Range(_lowerLimitChance, _upperLimitChance) <= _chance)
         {
