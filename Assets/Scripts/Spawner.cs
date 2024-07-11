@@ -2,22 +2,23 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private SplitCub _splitCub;
+    [SerializeField] private Cube _cubePrefab;
 
-    void Update()
+    private float _spawnRadius = 5f;
+    private float _divider = 2f;
+
+    public void SetSpawnRadius(float radius)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        _spawnRadius = radius;
+    }
 
-            if(Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider.gameObject.CompareTag("Cube"))
-                {
-                    _splitCub.Split(hit.collider.gameObject);
-                }
-            }
-        }
+    public void Spawn(Vector3 position)
+    {
+        Vector3 randomSpawnPosition = Random.insideUnitSphere * _spawnRadius + position;
+
+        Cube newCube = Instantiate(_cubePrefab, randomSpawnPosition, Quaternion.identity);
+
+        newCube.transform.localScale /= _divider;
+        newCube.SetRandomColour();        
     }
 }

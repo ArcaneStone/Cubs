@@ -61,9 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Explosion.cs" />
-    <Compile Include="Assets\Scripts\SplitCub.cs" />
     <Compile Include="Assets\Scripts\Spawner.cs" />
-    <Compile Include="Assets\Scripts\SpawnerNewCub.cs" />
+    <Compile Include="Assets\Scripts\Raycaster.cs" />
+    <Compile Include="Assets\Scripts\Cube.cs" />
+    <Compile Include="Assets\Scripts\DividedCube.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
