@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DividedCube : MonoBehaviour
@@ -14,13 +15,15 @@ public class DividedCube : MonoBehaviour
     private int _lowerLimitCubs = 2;
     private int _upperLimitCubs = 7;
 
+    private List<Cube> _newCubes = new List<Cube>();
+
     public void Split(Cube cubeToSplit)
     {
         Vector3 cubePosition = cubeToSplit.transform.position;
 
         if (cubeToSplit != null)
         {
-            _explosion.ApplyForce(cubePosition);
+            _explosion.ApplyForce(cubePosition, _newCubes);
             Destroy(cubeToSplit.gameObject);
         }
 
@@ -30,7 +33,8 @@ public class DividedCube : MonoBehaviour
 
             for (int i = 0; i < numberOfCubes; i++)
             {
-                _spawnerNewCube.Spawn(cubePosition);
+                Cube newCube = _spawnerNewCube.Spawn(cubePosition, cubeToSplit.transform.localScale / _divider);
+                _newCubes.Add(newCube);
             }
 
             _chance /= _divider;
