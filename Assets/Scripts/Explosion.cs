@@ -3,21 +3,28 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    [SerializeField] private float _force;
+    [SerializeField] private float _forceMultiplier;
 
-    private float _explosionRadius = 3f;
+    private float _explosionRadius = 50f;
+    private float _numberDefinitionOfCoefficient = 1f;
 
-    public void ApplyForce(Vector3 point, List<Cube> newCubes)
+    public void Expload(Cube cube)
     {
-        Collider[] colliders = Physics.OverlapSphere(point, _explosionRadius);
+        float explosionRadius = _explosionRadius * (_numberDefinitionOfCoefficient / cube.transform.lossyScale.x);
+
+        Collider[] colliders = Physics.OverlapSphere(cube.transform.position, explosionRadius);
 
         foreach (Collider hit in colliders)
         {
             Rigidbody rigidbody = hit.GetComponent<Rigidbody>();
 
-            if (rigidbody != null && newCubes.Contains(hit.GetComponent<Cube>()))
+            if (rigidbody != null)
             {
-                rigidbody.AddExplosionForce(_force, point, _explosionRadius);
+                float distance = Vector3.Distance(cube.transform.position, hit.transform.position);
+                float force = _forceMultiplier * (_numberDefinitionOfCoefficient / cube.transform.localScale.x)
+                                * (_numberDefinitionOfCoefficient - (distance / explosionRadius));
+
+                rigidbody.AddExplosionForce(force, cube.transform.position, explosionRadius);
             }
         }
     }

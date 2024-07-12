@@ -23,21 +23,24 @@ public class DividedCube : MonoBehaviour
 
         if (cubeToSplit != null)
         {
-            _explosion.ApplyForce(cubePosition, _newCubes);
-            Destroy(cubeToSplit.gameObject);
-        }
-
-        if (Random.Range(_lowerLimitChance, _upperLimitChance) <= _chance)
-        {
-            int numberOfCubes = Random.Range(_lowerLimitCubs, _upperLimitCubs);
-
-            for (int i = 0; i < numberOfCubes; i++)
+            if (Random.Range(_lowerLimitChance, _upperLimitChance) <= _chance)
             {
-                Cube newCube = _spawnerNewCube.Spawn(cubePosition, cubeToSplit.transform.localScale / _divider);
-                _newCubes.Add(newCube);
-            }
+                int numberOfCubes = Random.Range(_lowerLimitCubs, _upperLimitCubs);
 
-            _chance /= _divider;
+                for (int i = 0; i < numberOfCubes; i++)
+                {
+                    Cube newCube = _spawnerNewCube.Spawn(cubePosition, cubeToSplit.transform.localScale / _divider);
+                    _newCubes.Add(newCube);
+                }
+
+                _chance /= _divider;
+                Destroy(cubeToSplit.gameObject);
+            }
+            else
+            {
+                _explosion.Expload(cubeToSplit);
+                Destroy(cubeToSplit.gameObject);
+            }
         }
     }
 }
